@@ -246,7 +246,16 @@ PBS.KIDS.storybook.sprite = function (GLOBAL, PBS, options) {
 	
 		return element;	
 	};
-	
+	that.getCurFrame = function() {
+        return curFrame;
+    };
+    that.setCurFrame = function(B) {
+
+	    previousFrame = B;
+		curFrame = B;
+		updateIndex = B;
+        that.dirty = true;
+    };
 	that.play = function () {
 	
 		that.reset();

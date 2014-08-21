@@ -118,7 +118,7 @@ PBS.KIDS.storybook.book = function (GLOBAL, PBS, storybookContainerElement, conf
 			
 			// If the page dragged is the left page
 			if (page === pages[leftPageIndex]) {	
-				that.previousPage();
+			                                    	that.previousPage();
 			} else {
 				if (curOrientation === "SINGLE-PAGE") {
 					that.previousPage();
@@ -134,7 +134,7 @@ PBS.KIDS.storybook.book = function (GLOBAL, PBS, storybookContainerElement, conf
 			audioPlayer.removeEventListener("PLAY_COMPLETE", leftPageSoundComplete);
 			
 			// Play the right page sound if it exists
-			if (pages[rightPageIndex].pageSound) {
+			if (pages[rightPageIndex] && pages[rightPageIndex].pageSound) {
 				loud();
 				audioPlayer.play(pages[rightPageIndex].pageSound);
 				audioPlayer.addEventListener("PLAY_COMPLETE", rightPageSoundComplete);
@@ -284,6 +284,8 @@ PBS.KIDS.storybook.book = function (GLOBAL, PBS, storybookContainerElement, conf
 					
 				// Center the cover
 				bookContainerElement.style.marginLeft = (containerWidth - pagesContainerElement.offsetWidth) / 2 + "px";
+				that.dispatchEvent("ON_COVER");
+
 			} else {
 			
 				if (curOrientation === "SINGLE-PAGE") {
@@ -293,7 +295,6 @@ PBS.KIDS.storybook.book = function (GLOBAL, PBS, storybookContainerElement, conf
 					bookContainerElement.style["-moz-transition"] = "margin-left " + pageSlideDuration / 1000 + "s linear";
 					bookContainerElement.style["-ms-transition"] = "margin-left " + pageSlideDuration / 1000 + "s linear";
 					bookContainerElement.style["-o-transition"] = "margin-left " + pageSlideDuration / 1000 + "s linear";
-					
 					// If an current page index is an odd (left page)
 					if (curPageIndex % 2) {
 						
@@ -303,11 +304,13 @@ PBS.KIDS.storybook.book = function (GLOBAL, PBS, storybookContainerElement, conf
 						// Zoom on left page
 						bookContainerElement.style.marginLeft = bookMargin + "px";
 					}
-
 				} else {
 					bookContainerElement.className = "";
 					// Center the book horizontally
 					bookContainerElement.style.marginLeft = (containerWidth - pagesContainerElement.offsetWidth) / 2 + "px";
+
+					that.dispatchEvent("ON_INTERNAL");
+        
 				}
 			}
 		},
@@ -419,15 +422,17 @@ PBS.KIDS.storybook.book = function (GLOBAL, PBS, storybookContainerElement, conf
 			// If the current page is the cover
 			if (targetPageIndex === -1) {
 				
+				that.dispatchEvent("NAVIGATION_TO_COMPLETE");
 				cover.navigationToComplete();
-				
 				// If the cover has sound
 				if (cover.pageSound) {
 					// Play the page sound
 					audioPlayer.play(cover.pageSound);
 				}
 			} else {
+				that.dispatchEvent("NAVIGATION_TO_COMPLETE");
 				pages[leftPageIndex].navigationToComplete();
+				that.dispatchEvent("NAVIGATION_TO_COMPLETE");
 				pages[rightPageIndex].navigationToComplete();
 			
 				// If single page layout
@@ -679,9 +684,12 @@ PBS.KIDS.storybook.book = function (GLOBAL, PBS, storybookContainerElement, conf
 
 			// Call navigation start methods
 			if (pages[leftPageIndex]) {
+				that.dispatchEvent("NAVIGATION_TO_BEGIN");
 				pages[leftPageIndex].navigationToBegin();
+
 			}
 			if (pages[rightPageIndex]) {
+				that.dispatchEvent("NAVIGATION_TO_BEGIN");
 				pages[rightPageIndex].navigationToBegin();
 			}
 			
@@ -985,64 +993,64 @@ PBS.KIDS.storybook.book = function (GLOBAL, PBS, storybookContainerElement, conf
 				}
 				
 				for (j = 0; j < config.pages[i].content.length; j += 1) {
-					for (key in config.pages[i].content[j]) {
-						if (key === "url") {
-							// Add a new resource object with the url
-							config.pages[i].content[j].resource = resourceLoader.addToQueue(config.pages[i].content[j].url);
-						} else if (key === "content") {
-							for (k = 0; k < config.pages[i].content[j].content.length; k += 1) {
-								for (key2 in config.pages[i].content[j].content[k]) {
-									if (key2 === "url") {
-										// Add a new resource object with the url
-										config.pages[i].content[j].content[k].resource = resourceLoader.addToQueue(config.pages[i].content[j].content[k].url);
-									}
-								}
-							}
-						}
-						
-						
-					}
-					// If the type is Drawing Pad
-					if (config.pages[i].content[j].type.toUpperCase() === "DRAWINGPAD") {
-						
-						if (config.pages[i].content[j].overlayUrl) {
-							config.pages[i].content[j].overlayResource = resourceLoader.addToQueue(config.pages[i].content[j].overlayUrl);
-						}
-						if (config.pages[i].content[j].textureUrl) {
-							config.pages[i].content[j].textureResource = resourceLoader.addToQueue(config.pages[i].content[j].textureUrl);
-						}
-						
-						for (key in config.pages[i].content[j]) {
-							if (key === "colorButtons") {
-								for (k = 0; k < config.pages[i].content[j].colorButtons.length; k += 1) {
-									for (key2 in config.pages[i].content[j].colorButtons[k]) {
-										if (key2 === "url") {
-											// Add a new resource object with the url
-											config.pages[i].content[j].colorButtons[k].resource = resourceLoader.addToQueue(config.pages[i].content[j].colorButtons[k].url);
-										}
-									}
-								}
-							} else if (key === "clearButtons") {
-								for (k = 0; k < config.pages[i].content[j].clearButtons.length; k += 1) {
-									for (key2 in config.pages[i].content[j].clearButtons[k]) {
-										if (key2 === "url") {
-											// Add a new resource object with the url
-											config.pages[i].content[j].clearButtons[k].resource = resourceLoader.addToQueue(config.pages[i].content[j].clearButtons[k].url);
-										}
-									}
-								}
-							} else if (key === "eraserButtons") {
-								for (k = 0; k < config.pages[i].content[j].eraserButtons.length; k += 1) {
-									for (key2 in config.pages[i].content[j].eraserButtons[k]) {
-										if (key2 === "url") {
-											// Add a new resource object with the url
-											config.pages[i].content[j].eraserButtons[k].resource = resourceLoader.addToQueue(config.pages[i].content[j].eraserButtons[k].url);
-										}
-									}
-								}
-							}					
-						}
-					}
+				 	for (key in config.pages[i].content[j]) {
+				 		if (key === "url") {
+				 			// Add a new resource object with the url
+				 			config.pages[i].content[j].resource = resourceLoader.addToQueue(config.pages[i].content[j].url);
+				 		} else if (key === "content") {
+				 			for (k = 0; k < config.pages[i].content[j].content.length; k += 1) {
+				 				for (key2 in config.pages[i].content[j].content[k]) {
+				 					if (key2 === "url") {
+				 						// Add a new resource object with the url
+				 						config.pages[i].content[j].content[k].resource = resourceLoader.addToQueue(config.pages[i].content[j].content[k].url);
+				 					}
+				 				}
+				 			}
+				 		}
+				 		
+				 		
+				 	}
+				 	// If the type is Drawing Pad
+				 	if (config.pages[i].content[j].type.toUpperCase() === "DRAWINGPAD") {
+				 		
+				 		if (config.pages[i].content[j].overlayUrl) {
+				 			config.pages[i].content[j].overlayResource = resourceLoader.addToQueue(config.pages[i].content[j].overlayUrl);
+				 		}
+				 		if (config.pages[i].content[j].textureUrl) {
+				 			config.pages[i].content[j].textureResource = resourceLoader.addToQueue(config.pages[i].content[j].textureUrl);
+				 		}
+				 		
+				 		for (key in config.pages[i].content[j]) {
+				 			if (key === "colorButtons") {
+				 				for (k = 0; k < config.pages[i].content[j].colorButtons.length; k += 1) {
+				 					for (key2 in config.pages[i].content[j].colorButtons[k]) {
+				 						if (key2 === "url") {
+				 							// Add a new resource object with the url
+				 							config.pages[i].content[j].colorButtons[k].resource = resourceLoader.addToQueue(config.pages[i].content[j].colorButtons[k].url);
+				 						}
+				 					}
+				 				}
+				 			} else if (key === "clearButtons") {
+				 				for (k = 0; k < config.pages[i].content[j].clearButtons.length; k += 1) {
+				 					for (key2 in config.pages[i].content[j].clearButtons[k]) {
+				 						if (key2 === "url") {
+				 							// Add a new resource object with the url
+				 							config.pages[i].content[j].clearButtons[k].resource = resourceLoader.addToQueue(config.pages[i].content[j].clearButtons[k].url);
+				 						}
+				 					}
+				 				}
+				 			} else if (key === "eraserButtons") {
+				 			 	for (k = 0; k < config.pages[i].content[j].eraserButtons.length; k += 1) {
+				 			 		for (key2 in config.pages[i].content[j].eraserButtons[k]) {
+				 			 			if (key2 === "url") {
+				 			 				// Add a new resource object with the url
+				 			 				config.pages[i].content[j].eraserButtons[k].resource = resourceLoader.addToQueue(config.pages[i].content[j].eraserButtons[k].url);
+				 			 			}
+				 			 		}
+				 			 	}
+				 			}					
+				 		}
+				 	}
 				}				
 			}
 		},
@@ -1090,7 +1098,6 @@ PBS.KIDS.storybook.book = function (GLOBAL, PBS, storybookContainerElement, conf
 			resourceLoadComplete = true;
 			
 			that.dispatchEvent("LOADED");
-			
 			if (!audioPlayer || audioLoadedEnough === true) {
 				start();
 			}
@@ -1244,6 +1251,7 @@ PBS.KIDS.storybook.book = function (GLOBAL, PBS, storybookContainerElement, conf
 				}
 
 				updateLayout();
+
 			} else {
 				sb.error("Cannot initialize storybook more than once.");
 			}
@@ -1273,7 +1281,12 @@ PBS.KIDS.storybook.book = function (GLOBAL, PBS, storybookContainerElement, conf
 // TODO: Check if window.resize gets called on orientation change. If it is the following is unneccessary.
 		updateLayout();
 	};
-	
+	that.getSprite = function(at, ar) {
+		return pages[at].getSprite(ar)
+    };
+	that.getDrawingPad = function(at, ar) {
+        return pages[at].getDrawingPad(ar)
+    };
 	// Destroy the storybook
 	that.destroy = function () {
 	
@@ -1340,6 +1353,11 @@ PBS.KIDS.storybook.book = function (GLOBAL, PBS, storybookContainerElement, conf
 		if (targetPageIndex >= -1) {
 			navigateToPageIndex(targetPageIndex);
 		}
+		
+		//transition event
+		if (targetPageIndex===-1) {
+			that.dispatchEvent("TRANSITION_TO_COVER");
+        }
 	};
 	
 	that.gotoPage = function (pageIndex) {

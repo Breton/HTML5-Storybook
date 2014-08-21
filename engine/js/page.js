@@ -233,10 +233,9 @@ PBS.KIDS.storybook.page = function (GLOBAL, PBS, config, pageNum, options) {
 	that.navigationToBegin = function () {
 		
 		var i;
-		
 		// For each cycler on the page
 		for (i = 0; i < cyclerArray.length; i += 1) {	
-			cyclerArray[i].reset();
+		    cyclerArray[i].reset();
 		}
 	};
 	
@@ -244,7 +243,7 @@ PBS.KIDS.storybook.page = function (GLOBAL, PBS, config, pageNum, options) {
 	that.navigationToComplete = function () {
 			
 		var i;
-		 
+
 		// If a page background
 		if (backgroundSprite) {
 			// Draw the background
@@ -266,13 +265,12 @@ PBS.KIDS.storybook.page = function (GLOBAL, PBS, config, pageNum, options) {
 		}
 		
 		// For each cycler on the page
-		for (i = 0; i < cyclerArray.length; i += 1) {	
+		for (i = 0; i < cyclerArray.length; i += 1) {
 			if (cyclerArray[i].autoStart === true) {
 				cyclerArray[i].play();
 			} else {
 				cyclerArray[i].reset();
 			}
-			
 			if (cyclerArray[i].playAfterDelay > 0) {
 				GLOBAL.setTimeout(cyclerArray[i].play, GLOBAL.parseInt(cyclerArray[i].playAfterDelay, 10) * 1000);
 			}
@@ -331,7 +329,12 @@ PBS.KIDS.storybook.page = function (GLOBAL, PBS, config, pageNum, options) {
 			contentArray[i].render();
 		}
 	};
-	
+	that.getSprite = function(v) {
+        return spriteArray[v]
+    };
+    that.getDrawingPad = function(v) {
+        return drawingPadArray[v]
+    };
 	that.quiet = function () {
 	
 		element.className = element.className.replace(" loud", "");
