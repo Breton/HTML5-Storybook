@@ -18,15 +18,23 @@ PBS.KIDS.storybook.audioPlayer = function (GLOBAL, PBS, src, options) {
 		loadInterval,
 		completeInterval,
 
-		onPlay = function () {	
+		onPlay = function () {
 
 		},
 		
-		onPause = function () {	
+		onPause = function () {
 
 		},
 		
-		onCanPlay = function () {	
+		onCanPlay = function () {
+			if (!playable) {
+				playable = true;
+				//PBS.KIDS.storybook.debug("Audio Load Started.");
+				that.dispatchEvent("LOAD_STARTED");
+			}
+		},
+		
+		onCanPlayThrough = function () {
 			
 			if (!playable) {
 				playable = true;
@@ -35,28 +43,24 @@ PBS.KIDS.storybook.audioPlayer = function (GLOBAL, PBS, src, options) {
 			}
 		},
 		
-		onCanPlayThrough = function () {	
-			
-			if (!playable) {
-				playable = true;
-				//PBS.KIDS.storybook.debug("Audio Load Started.");
-				that.dispatchEvent("LOAD_STARTED");
-			}
+		onLoadedData = function () {
+            
+            if (!playable) {
+                playable = true;
+                //PBS.KIDS.storybook.debug("Audio Load Started.");
+                that.dispatchEvent("LOAD_STARTED");
+            }
 		},
 		
-		onLoadedData = function () {	
+		onLoadedMetadata = function () {
 
 		},
 		
-		onLoadedMetadata = function () {	
+		onProgress = function () {
 
 		},
 		
-		onProgress = function () {	
-
-		},
-		
-		onEnded = function () {	
+		onEnded = function () {
 
 		},
 		
@@ -65,7 +69,7 @@ PBS.KIDS.storybook.audioPlayer = function (GLOBAL, PBS, src, options) {
 		},
 		
 		onError = function (e) {	
-			PBS.KIDS.storybook.debug("audioPlayer.onError: " + e.message);
+		                        	PBS.KIDS.storybook.debug("audioPlayer.onError: " + e.message);
 		},
 		
 		init = function () {
