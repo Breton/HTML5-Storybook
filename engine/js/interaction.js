@@ -121,5 +121,8 @@ PBS.KIDS.storybook.makeInteractionObject = function (GLOBAL, PBS, view) {
 	element.addEventListener("touchend", release);
 	element.addEventListener("touchcancel", cancel);
 	
+
+	element.setAttribute("role","button");
+
 	return view;
 };

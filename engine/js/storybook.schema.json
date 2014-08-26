@@ -1,0 +1,325 @@
+{
+
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id":"storybook.schema.json",
+  "required": false,
+  "definitions": {
+    "sound": {
+      "type": "object",
+      "required": false,
+      "properties": {
+        "endTime": {
+          "type": "number",
+          "required": true
+        },
+        "loop": {
+          "type": "boolean",
+          "required": true
+        },
+        "startTime": {
+          "type": "number",
+          "required": true
+        }
+      }
+    }
+  },
+  "properties": {
+    "audio": {
+      "type": "object",
+      "required": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "required": false
+        },
+        "name": {
+          "type": "string",
+          "required": false
+        },
+        "path": {
+          "type": "string",
+          "required": false
+        }
+      }
+    },
+    "background": {
+      "type": "object",
+      "required": false
+    },
+    "book": {
+      "type": "object",
+      "required": false,
+      "properties": {
+        "evenPageBackground": {
+          "type": "object",
+          "required": false,
+          "properties": {
+            "color": {
+              "type": "string",
+              "required": false
+            }
+          }
+        },
+        "font": {
+          "type": "string",
+          "required": false
+        },
+        "nextPageButton": {
+          "type": "object",
+          "required": false,
+          "properties": {
+            "height": {
+              "type": "string",
+              "required": false
+            },
+            "horizontalAlign": {
+              "type": "string",
+              "required": false
+            },
+            "url": {
+              "type": "string",
+              "required": false
+            },
+            "width": {
+              "type": "string",
+              "required": false
+            },
+            "x": {
+              "type": "number",
+              "required": false
+            },
+            "y": {
+              "type": "number",
+              "required": false
+            }
+          }
+        },
+        "oddPageBackground": {
+          "type": "object",
+          "required": false,
+          "properties": {
+            "color": {
+              "type": "string",
+              "required": false
+            },
+            "url": {
+              "type": "string",
+              "required": false
+            }
+          }
+        },
+        "pageBackground": {
+          "type": "object",
+          "required": false,
+          "properties": {
+            "color": {
+              "type": "string",
+              "required": false
+            }
+          }
+        },
+        "pageHeight": {
+          "type": "number",
+          "required": false
+        },
+        "pageSlideDuration": {
+          "type": "number",
+          "required": false
+        },
+        "pageTurnDuration": {
+          "type": "number",
+          "required": false
+        },
+        "pageWidth": {
+          "type": "number",
+          "required": false
+        },
+        "previousPageButton": {
+          "type": "object",
+          "required": false,
+          "properties": {
+            "height": {
+              "type": "string",
+              "required": false
+            },
+            "url": {
+              "type": "string",
+              "required": false
+            },
+            "width": {
+              "type": "string",
+              "required": false
+            },
+            "x": {
+              "type": "number",
+              "required": false
+            },
+            "y": {
+              "type": "number",
+              "required": false
+            }
+          }
+        },
+        "startOnPage": {
+          "type": "number",
+          "required": false
+        }
+      }
+    },
+    "cover": {
+      "type": "object",
+      "required": false,
+      "properties": {
+        "background": {
+          "type": "object",
+          "required": false,
+          "properties": {
+            "url": {
+              "type": "string",
+              "required": false
+            }
+          }
+        },
+        "content": {
+          "type": "array",
+          "required": false,
+          "items": {
+            "type": "object",
+            "required": false,
+            "additionalProperties": false,
+            "properties": {
+              "height": {
+                "type": "number",
+                "required": false
+              },
+              "sound": {
+                "$ref": "#/definitions/sound"
+              },
+              "type": {
+                "type": "string",
+                "required": false
+              },
+              "width": {
+                "type": "number",
+                "required": false
+              },
+              "x": {
+                "type": "number",
+                "required": false
+              },
+              "y": {
+                "type": "number",
+                "required": false
+              }
+            }
+          }
+        },
+        "sound": {
+          "type": "object",
+          "required": false,
+          "properties": {
+            "endTime": {
+              "type": "number",
+              "required": false
+            },
+            "loop": {
+              "type": "boolean",
+              "required": false
+            },
+            "startTime": {
+              "type": "number",
+              "required": false
+            }
+          }
+        }
+      }
+    },
+    "pages": {
+      "type": "array",
+      "required": false,
+      "items": {
+        "type": "object",
+        "required": false,
+        "properties": {
+          "background": {
+            "type": "object",
+            "required": false,
+            "properties": {
+              "url": {
+                "type": "string",
+                "required": false
+              }
+            }
+          },
+          "content": {
+            "type": "array",
+            "required": true,
+            "minItems": 1,
+            "items": {
+              "type": [
+                {
+                  "type": "object",
+                  "required": true,
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "enum": [
+                        "Sprite"
+                      ],
+                      "required": true
+                    },
+                    "url": {
+                      "type": "string",
+                      "required": false
+                    },
+                    "height": {
+                      "type": "number",
+                      "required": true
+                    },
+                    "width": {
+                      "type": "number",
+                      "required": true
+                    },
+                    "x": {
+                      "type": "number",
+                      "required": true
+                    },
+                    "y": {
+                      "type": "number",
+                      "required": true
+                    },
+                    "numFrames": {
+                      "type": "number",
+                      "required": false
+                    },
+                    "frameDelay": {
+                      "type": "number",
+                      "required": false
+                    },
+                    "playOnPress": {
+                      "type": "boolean",
+                      "required": false
+                    },
+                    "autoStart": {
+                      "type": "boolean",
+                      "required": false
+                    },
+                    "autoReset": {
+                      "type": "boolean",
+                      "required": false
+                    },
+                    "sound": {
+                      "type": "object",
+                      "required": false
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

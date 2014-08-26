@@ -192,27 +192,30 @@ PBS.KIDS.storybook.drawingPad = function (GLOBAL, PBS, options) {
 	that.update = function () {
 
 	};
-	
+	that.clearPad = function () {
+
+		clearPad();
+	}
 	// Draw the text area
 	that.render = function () {
 	
 		var i;
 		 
 		 if (that.dirty) {
-		 	that.dirty = false;
-		 	
-		 	//pad.render(); 	
-		 	for (i = 0; i < colorButtons.length; i += 1) {
-			 	colorButtons[i].render();
-		 	}
-		 	
-		 	for (i = 0; i < eraserButtons.length; i += 1) {
-			 	eraserButtons[i].render();
-		 	}
-		 	
-		 	for (i = 0; i < clearButtons.length; i += 1) {
-			 	clearButtons[i].render();
-		 	}
+			that.dirty = false;
+			
+			//pad.render();	
+			for (i = 0; i < colorButtons.length; i += 1) {
+				colorButtons[i].render();
+			}
+			
+			for (i = 0; i < eraserButtons.length; i += 1) {
+				eraserButtons[i].render();
+			}
+			
+			for (i = 0; i < clearButtons.length; i += 1) {
+				clearButtons[i].render();
+			}
 		 }
 	};
 	

@@ -114,7 +114,6 @@ PBS.KIDS.storybook.sprite = function (GLOBAL, PBS, options) {
 
 				currentFrame = totalNumFrames * curTick / totalTicks;
 				
-//console.log(totalNumFrames + " * " + curTick + "/" + totalTicks + " = " + currentFrame);
 			}
 			
 			return GLOBAL.Math.floor(currentFrame);
@@ -125,7 +124,7 @@ PBS.KIDS.storybook.sprite = function (GLOBAL, PBS, options) {
 	spec.height = 99 + "px";
 	spec.className = "pbsCanvas pbsSprite";
 	if (options && options.className) {	
-		spec.className += " " + options.className
+	                                   	spec.className += " " + options.className
 	}
 	ctx = PBS.KIDS.storybook.createCanvas(parentElement, spec);
 	
@@ -188,7 +187,6 @@ PBS.KIDS.storybook.sprite = function (GLOBAL, PBS, options) {
 	that.render = function () {
 	
 		var curAlpha, frameXPos;
-		
 		if (initialized) {
 	
 			if (that.dirty) {
@@ -250,11 +248,11 @@ PBS.KIDS.storybook.sprite = function (GLOBAL, PBS, options) {
         return curFrame;
     };
     that.setCurFrame = function(B) {
-
-	    previousFrame = B;
+	    // previousFrame = B;
 		curFrame = B;
-		updateIndex = B;
+		// updateIndex = B;
         that.dirty = true;
+        return that;
     };
 	that.play = function () {
 	
